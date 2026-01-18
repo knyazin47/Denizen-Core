@@ -1075,6 +1075,34 @@ public class UtilTagBase extends PseudoObjectTagBase<UtilTagBase> {
         tagProcessor.registerMechanism("cleanmem", false, (object, mechanism) -> {
             System.gc();
         });
+
+        // <--[mechanism]
+        // @object system
+        // @name delete_file
+        // @input ElementTag
+        // @deprecated 	Use the "delete" command instead of this old mechanism.
+        // @description
+        // Deprecated, use <@link command delete>.
+        // -->
+        tagProcessor.registerMechanism("delete_file", false, ElementTag.class, (object, mechanism, input) -> {
+            if (!CoreConfiguration.allowFileDeletion) {
+                mechanism.echoError("File deletion disabled by administrator (refer to mechanism documentation).");
+                return;
+            }
+            File file = new File(DenizenCore.implementation.getDataFolder(), input.asString());
+            if (!DenizenCore.implementation.canWriteToFile(file)) {
+                mechanism.echoError("Cannot write to that file path due to security settings in Denizen/config.yml.");
+                return;
+            }
+            try {
+                if (!file.delete()) {
+                    mechanism.echoError("Failed to delete file: returned false");
+                }
+            }
+            catch (Exception e) {
+                mechanism.echoError("Failed to delete file: " + e.getMessage());
+            }
+        });
     }
 
     public static final long serverStartTimeMillis = CoreUtilities.monotonicMillis();

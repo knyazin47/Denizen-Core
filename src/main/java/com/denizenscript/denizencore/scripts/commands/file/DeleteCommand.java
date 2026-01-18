@@ -44,8 +44,6 @@ public class DeleteCommand extends AbstractCommand implements Holdable {
     //
     // This command respects the "Restricted path" and "Allow file deletion" settings in Denizen's config.yml.
     //
-    // Use the ~waitable prefix to avoid server lag when deleting large folders.
-    //
     // @Tags
     // <util.has_file[<path>]>
     // <entry[saveName].success> returns whether the deletion was successful.
