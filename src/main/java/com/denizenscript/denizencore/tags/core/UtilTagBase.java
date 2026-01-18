@@ -1075,39 +1075,6 @@ public class UtilTagBase extends PseudoObjectTagBase<UtilTagBase> {
         tagProcessor.registerMechanism("cleanmem", false, (object, mechanism) -> {
             System.gc();
         });
-
-        // <--[mechanism]
-        // @object system
-        // @name delete_file
-        // @input ElementTag
-        // @description
-        // Deletes the given file from the server.
-        // File path starts in the Denizen folder.
-        // Require config file setting "Commands.Delete.Allow file deletion".
-        // @example
-        // - adjust system delete_file:data/logs/latest.txt
-        // @tags
-        // <util.has_file[<file>]>
-        // -->
-        tagProcessor.registerMechanism("delete_file", false, ElementTag.class, (object, mechanism, input) -> {
-            if (!CoreConfiguration.allowFileDeletion) {
-                mechanism.echoError("File deletion disabled by administrator (refer to mechanism documentation).");
-                return;
-            }
-            File file = new File(DenizenCore.implementation.getDataFolder(), input.asString());
-            if (!DenizenCore.implementation.canWriteToFile(file)) {
-                mechanism.echoError("Cannot write to that file path due to security settings in Denizen/config.yml.");
-                return;
-            }
-            try {
-                if (!file.delete()) {
-                    mechanism.echoError("Failed to delete file: returned false");
-                }
-            }
-            catch (Exception e) {
-                mechanism.echoError("Failed to delete file: " + e.getMessage());
-            }
-        });
     }
 
     public static final long serverStartTimeMillis = CoreUtilities.monotonicMillis();

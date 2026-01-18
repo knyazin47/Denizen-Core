@@ -125,7 +125,11 @@ public class CommandRegistry {
         registerCommand(SQLCommand.class);
         registerCommand(WebGetCommand.class);
         registerCommand(WebServerCommand.class);
+        // archive
+        registerCommand(ExtractCommand.class);
+//        registerCommand(CompressCommand.class);
         // file
+        registerCommand(DeleteCommand.class);
         registerCommand(FileCopyCommand.class);
         registerCommand(FileReadCommand.class);
         registerCommand(FileWriteCommand.class);
